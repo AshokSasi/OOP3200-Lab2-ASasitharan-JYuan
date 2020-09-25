@@ -134,7 +134,12 @@ int main()
                 //     cout << "\nClient ID and issue description fields cannot be empty." << endl;
                //  }
 
-                cout << "Press any key to continue" << endl;
+                if (i == 0)
+               {
+                   WorkTicket newTicket = workTicketObj[i];
+                }
+
+                cout << "\nPress any key to continue" << endl;
                 cin.ignore();
                 system("CLS");
 
@@ -154,17 +159,12 @@ int main()
         errorFlag = false; //resets errorFlag back to false
     }
 
-    WorkTicket newTicket = workTicketObj[0];
 
     for (int j = 0; j < NUMBER_OF_OBJECTS; j++)//loops through the array of objects to print them out
     {
         cout << "\nWork Ticket #" << j + 1 << endl; //ticket header
         cout << workTicketObj[j].ShowWorkTicket() << endl; //calls ShowWorkTicket method for each object
     }
-
-    cout << "\nCopied Work Ticket" << endl;
-    cout << newTicket.ShowWorkTicket() << endl;
-
 
     return 0;
 }//end of main
@@ -210,7 +210,7 @@ WorkTicket::WorkTicket(const WorkTicket& newTicket)
     SetWorkTicket(newTicket.GetWorkTicketNumber(), newTicket.GetClientID(), newTicket.GetWorkTicketDay(),
         newTicket.GetWorkTicketMonth(), newTicket.GetWorkTicketYear(), newTicket.GetIssueDescription());
 
-    cout << "\n A work ticket object was copied\n";
+    cout << "\n A work ticket object was COPIED\n";
 }
 
 
