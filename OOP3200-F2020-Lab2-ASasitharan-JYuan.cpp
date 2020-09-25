@@ -19,7 +19,7 @@
 #include "MyConsoleInput.h" // ConsoleInput::ReadInteger()
 
 using namespace std;
-
+int iteration = 1;
 
 class WorkTicket
 {
@@ -27,8 +27,12 @@ public:
 
     //constructor
     WorkTicket(int ticketNumber = 0, string clientID = "", int workTicketDay = 1, int workTicketMonth = 1, int workTicketYear = 2000, string issueDescription = "");
+
+    friend std::ostream& operator<<(std::ostream& out, const  WorkTicket& ticket);
+
     //copy constructor
     WorkTicket(const WorkTicket& newTicket);
+
 
 
     // Accessors:
@@ -134,17 +138,21 @@ int main()
                 //     cout << "\nClient ID and issue description fields cannot be empty." << endl;
                //  }
 
-                if (i == 0)
-               {
-                   WorkTicket newTicket = workTicketObj[i];
+                if (errorFlag == true)
+                {
+                    if (i = 0)
+                    {
+                        WorkTicket newTicket = workTicketObj[i];
+                    }
+                    cout << "\nPress enter to continue" << endl;
+                    cin.ignore();
+                    system("CLS");
+
                 }
 
-                cout << "\nPress any key to continue" << endl;
-                cin.ignore();
-                system("CLS");
 
             }
-            catch (const invalid_argument& ia)  //catch block
+            catch (const invalid_argument & ia)  //catch block
             {
                 cerr << "Invalid argument: " << ia.what() << '\n'; //invalid argument print
                //clears input
@@ -162,9 +170,9 @@ int main()
 
     for (int j = 0; j < NUMBER_OF_OBJECTS; j++)//loops through the array of objects to print them out
     {
-        cout << "\nWork Ticket #" << j + 1 << endl; //ticket header
-        cout << workTicketObj[j].ShowWorkTicket() << endl; //calls ShowWorkTicket method for each object
+        cout << workTicketObj[j] << endl; //calls ShowWorkTicket method for each object
     }
+
 
     return 0;
 }//end of main
@@ -210,7 +218,14 @@ WorkTicket::WorkTicket(const WorkTicket& newTicket)
     SetWorkTicket(newTicket.GetWorkTicketNumber(), newTicket.GetClientID(), newTicket.GetWorkTicketDay(),
         newTicket.GetWorkTicketMonth(), newTicket.GetWorkTicketYear(), newTicket.GetIssueDescription());
 
-    cout << "\n A work ticket object was COPIED\n";
+    cout << "\nA work ticket object was copied\n";
+}
+
+//friend method for operator<< overload
+std::ostream& operator<<(std::ostream& out, const WorkTicket& ticket)
+{
+    out << ticket.ShowWorkTicket();
+    return out;
 }
 
 
@@ -291,9 +306,10 @@ string WorkTicket::ShowWorkTicket() const
 {   // declare a stringstream object
     stringstream workTicketOutput;
     // build the workorder output
-    workTicketOutput << "Ticket Number:\t\t" << GetWorkTicketNumber() << "\nClient ID:\t\t" << GetClientID()
-        << "\nWork Ticket Date:\t" << GetWorkTicketDay() << "/" << GetWorkTicketMonth() << "/" << GetWorkTicketYear()
-        << "\nIssue Description:\t" << GetIssueDescription() << ".";
+    workTicketOutput << "Work Ticket # " << iteration << " - " << GetClientID()
+        << " (" << GetWorkTicketDay() << "/" << GetWorkTicketMonth() << "/" << GetWorkTicketYear()
+        << "): " << GetIssueDescription() << endl;
     //return the workorder attribute output
+    iteration++;
     return workTicketOutput.str();
 }
