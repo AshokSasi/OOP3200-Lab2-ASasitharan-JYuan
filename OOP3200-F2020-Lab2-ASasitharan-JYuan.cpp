@@ -1,11 +1,12 @@
-// OOP3200-Lab1-Jacky-Ashok.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// OOP3200-F2020-Lab2-ASasitharan-JYuan.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-// Title:  OOP 3200 Lab 1 - Review of Classes and Objects
+// Title:  OOP 3200 Lab 2 - Class Operators and Data Type Conversions
 // Made by: Jacky Yuan, 100520106
 //          Ashok Sasitharan, 100745484
-// Date: Sept 18, 2020
+// Date Created: Sept 18, 2020
 // Description: Program used to generate and track work tickets for client requests.
-// Last Modified: N/A
+//
+// Change Log: Sept 25, 2020 - Modified class operators and data type conversions as per lab 2
 //
 
 #include <iostream> 		// cin, cout
@@ -26,23 +27,25 @@ public:
 
     //constructor
     WorkTicket(int ticketNumber = 0, string clientID = "", int workTicketDay = 1, int workTicketMonth = 1, int workTicketYear = 2000, string issueDescription = "");
+    //copy constructor
+    WorkTicket(const WorkTicket& newTicket);
 
 
     // Accessors:
     //get the work ticket number
-    int GetWorkTicketNumber();
+    int GetWorkTicketNumber() const;
     //get the client ID
-    string GetClientID();
+    string GetClientID() const;
     //get the work ticket date
-    int GetWorkTicketDay();
+    int GetWorkTicketDay() const;
     //get the work ticket month
-    int GetWorkTicketMonth();
+    int GetWorkTicketMonth() const;
     //get the work ticket year
-    int GetWorkTicketYear();
+    int GetWorkTicketYear() const;
     //get the clients problem description
-    string GetIssueDescription();
+    string GetIssueDescription() const;
     //returns the ticket attributes
-    string ShowWorkTicket();
+    string ShowWorkTicket() const;
 
 
     //Mutators:
@@ -96,7 +99,7 @@ int main()
     bool errorFlag = false;
 
     //INPUT SECTION
-    for (int i = 0; i < NUMBER_OF_OBJECTS; i++)//loops through array of ticket objects 
+    for (int i = 0; i < NUMBER_OF_OBJECTS; i++)//loops through array of ticket objects
     {
         cout << "\nWork Ticket #" << i + 1; //header for ticket
         while (errorFlag == false) //loops the input section when invalid input is entered
@@ -131,7 +134,9 @@ int main()
                 //     cout << "\nClient ID and issue description fields cannot be empty." << endl;
                //  }
 
-
+                cout << "Press any key to continue" << endl;
+                cin.ignore();
+                system("CLS");
 
             }
             catch (const invalid_argument& ia)  //catch block
@@ -147,15 +152,20 @@ int main()
 
         }
         errorFlag = false; //resets errorFlag back to false
-
-
     }
+
+    WorkTicket newTicket = workTicketObj[0];
 
     for (int j = 0; j < NUMBER_OF_OBJECTS; j++)//loops through the array of objects to print them out
     {
-        cout << "\n Work Ticket #" << j + 1 << endl; //ticket header
+        cout << "\nWork Ticket #" << j + 1 << endl; //ticket header
         cout << workTicketObj[j].ShowWorkTicket() << endl; //calls ShowWorkTicket method for each object
     }
+
+    cout << "\nCopied Work Ticket" << endl;
+    cout << newTicket.ShowWorkTicket() << endl;
+
+
     return 0;
 }//end of main
 
@@ -163,7 +173,7 @@ int main()
 
 
 //generates a work ticket object
-WorkTicket::WorkTicket(int inputtedTicketNumber, string inputtedClientID, int inputtedWorkTicketDay, int inputtedWorkTicketMonth, int inputtedWorkTicketYear, string inputtedIssueDescription)
+WorkTicket::WorkTicket(const int inputtedTicketNumber, const string inputtedClientID, const int inputtedWorkTicketDay, const int inputtedWorkTicketMonth, const int inputtedWorkTicketYear, const string inputtedIssueDescription)
 {
     //calls SetWorkTicket method
     SetWorkTicket(inputtedTicketNumber, inputtedClientID, inputtedWorkTicketDay, inputtedWorkTicketMonth, inputtedWorkTicketYear, inputtedIssueDescription);
@@ -193,6 +203,16 @@ bool WorkTicket::SetWorkTicket(int inputtedTicketNumber, string inputtedClientID
         return false;
     }
 }
+
+//Copy constructor
+WorkTicket::WorkTicket(const WorkTicket& newTicket)
+{
+    SetWorkTicket(newTicket.GetWorkTicketNumber(), newTicket.GetClientID(), newTicket.GetWorkTicketDay(),
+        newTicket.GetWorkTicketMonth(), newTicket.GetWorkTicketYear(), newTicket.GetIssueDescription());
+
+    cout << "\n A work ticket object was copied\n";
+}
+
 
 //setter for the work ticket number
 void WorkTicket::SetWorkTicketNumber(int inputtedTicketNumber)
@@ -231,43 +251,43 @@ void WorkTicket::SetIssueDescription(string inputtedIssueDescription)
 }
 
 //getter function for work ticket number
-int WorkTicket::GetWorkTicketNumber()
+int WorkTicket::GetWorkTicketNumber() const
 {
     return ticketNumber;
 }
 
 //getter function for work client ID
-string WorkTicket::GetClientID()
+string WorkTicket::GetClientID() const
 {
     return clientID;
 }
 
 //getter function for work ticket day
-int WorkTicket::GetWorkTicketDay()
+int WorkTicket::GetWorkTicketDay() const
 {
     return workTicketDay;
 }
 
 //getter function for work ticket Month
-int WorkTicket::GetWorkTicketMonth()
+int WorkTicket::GetWorkTicketMonth() const
 {
     return workTicketMonth;
 }
 
 //getter function for work ticket year
-int WorkTicket::GetWorkTicketYear()
+int WorkTicket::GetWorkTicketYear() const
 {
     return workTicketYear;
 }
 
 //getter function for issue description
-string WorkTicket::GetIssueDescription()
+string WorkTicket::GetIssueDescription() const
 {
     return issueDescription;
 }
 
 //shows the attributes of a work tickets issue
-string WorkTicket::ShowWorkTicket()
+string WorkTicket::ShowWorkTicket() const
 {   // declare a stringstream object
     stringstream workTicketOutput;
     // build the workorder output
