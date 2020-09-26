@@ -29,7 +29,7 @@ public:
     WorkTicket(int ticketNumber = 0, string clientID = "", int workTicketDay = 1, int workTicketMonth = 1, int workTicketYear = 2000, string issueDescription = "");
 
     friend std::ostream& operator<<(std::ostream& out, const  WorkTicket& ticket);
-    //friend std::istream& operator>>(std::istream& in, WorkTicket& ticket);
+    friend std::istream& operator>>(std::istream& in, WorkTicket& ticket);
 
     //copy constructor
     WorkTicket(const WorkTicket& newTicket);
@@ -203,6 +203,12 @@ int main()
     //statement for if the first and second ticket are equal
     cout << "Is ticket #1 equal to ticket #2? " << equalTicket << endl;
 
+    WorkTicket ticketObject4;
+    cout << "\nAdd ticket #4" << endl;
+    cout << "Please enter: Ticket Number, Client ID, Date, Month, Year, and Issue Description."<<endl;
+    cin >> ticketObject4;
+    cout << "\n" << ticketObject4 << endl;
+
     return 0;
 }//end of main
 
@@ -272,15 +278,23 @@ std::ostream& operator<<(std::ostream& out, const WorkTicket& ticket)
     return out;
 }
 
-////friend method for operator<< overload
-//std::istream& operator>>(std::istream& in, WorkTicket& ticket)
-//{
-//
-//    in >> point.m_x;
-//    in.ignore();
-//    in >> point.m_y;
-//    return in;
-//}
+//friend method for operator<< overload
+std::istream& operator>>(std::istream& in, WorkTicket& ticket)
+{
+
+    in >> ticket.ticketNumber;
+    in.ignore();
+    in >> ticket.clientID;
+    in.ignore();
+    in >> ticket.workTicketDay;
+    in.ignore();
+    in >> ticket.workTicketMonth;
+    in.ignore();
+    in >> ticket.workTicketYear;
+    in.ignore();
+    in >> ticket.issueDescription;
+    return in;
+}
 
 //Comparsion operator overload
 bool WorkTicket::operator==(const WorkTicket& otherTicket) const
