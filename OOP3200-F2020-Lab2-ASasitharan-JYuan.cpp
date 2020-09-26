@@ -29,11 +29,13 @@ public:
     WorkTicket(int ticketNumber = 0, string clientID = "", int workTicketDay = 1, int workTicketMonth = 1, int workTicketYear = 2000, string issueDescription = "");
 
     friend std::ostream& operator<<(std::ostream& out, const  WorkTicket& ticket);
+    //friend std::istream& operator>>(std::istream& in, WorkTicket& ticket);
 
     //copy constructor
     WorkTicket(const WorkTicket& newTicket);
 
-
+    //comparsion constructor
+    bool operator==(const WorkTicket& otherTicket) const;
 
     // Accessors:
     //get the work ticket number
@@ -101,6 +103,7 @@ int main()
     string inputtedIssueDescription;
     WorkTicket workTicketObj[NUMBER_OF_OBJECTS];
     bool errorFlag = false;
+    string equalTicket;
 
     //INPUT SECTION
     for (int i = 0; i < NUMBER_OF_OBJECTS; i++)//loops through array of ticket objects
@@ -140,7 +143,7 @@ int main()
 
                 if (errorFlag == true)
                 {
-                    if (i = 0)
+                    if (i == 0)
                     {
                         WorkTicket newTicket = workTicketObj[i];
                     }
@@ -152,7 +155,7 @@ int main()
 
 
             }
-            catch (const invalid_argument & ia)  //catch block
+            catch (const invalid_argument& ia)  //catch block
             {
                 cerr << "Invalid argument: " << ia.what() << '\n'; //invalid argument print
                //clears input
@@ -173,6 +176,16 @@ int main()
         cout << workTicketObj[j] << endl; //calls ShowWorkTicket method for each object
     }
 
+    if (workTicketObj[0] == workTicketObj[1])
+    {
+        equalTicket = "True";
+    }
+    else
+    {
+        equalTicket = "False";
+    }
+
+    cout << "Is ticket #1 equal to ticket #2? " << equalTicket << endl;
 
     return 0;
 }//end of main
@@ -228,7 +241,22 @@ std::ostream& operator<<(std::ostream& out, const WorkTicket& ticket)
     return out;
 }
 
+////friend method for operator<< overload
+//std::istream& operator>>(std::istream& in, WorkTicket& ticket)
+//{
+//
+//    in >> point.m_x;
+//    in.ignore();
+//    in >> point.m_y;
+//    return in;
+//}
 
+bool WorkTicket::operator==(const WorkTicket& otherTicket) const
+{
+    return ((GetWorkTicketNumber() == otherTicket.GetWorkTicketNumber()) && (GetClientID() == otherTicket.GetClientID())
+        && (GetWorkTicketDay() == otherTicket.GetWorkTicketDay()) && (GetWorkTicketMonth() == otherTicket.GetWorkTicketMonth())
+        && (GetWorkTicketYear() == otherTicket.GetWorkTicketYear()) && (GetIssueDescription() == otherTicket.GetIssueDescription()));
+}
 //setter for the work ticket number
 void WorkTicket::SetWorkTicketNumber(int inputtedTicketNumber)
 {
