@@ -150,7 +150,7 @@ int main()
                 if (errorFlag == true)
                 {
                     // checks for iteration and copies the work ticket
-                    if (i == 0)
+                    if (i == 2)
                     {
                         WorkTicket newTicket = workTicketObj[i];
                     }
@@ -204,7 +204,7 @@ int main()
 
 	//create a new work ticket
     WorkTicket ticketObject4;
-    cout << "\nAdd ticket #4" << endl;
+    cout << "\nAdd ticket #5" << endl;
     cin >> ticketObject4; //take input for the object using cin
     cout << "\n" << ticketObject4 << endl;
 
@@ -278,7 +278,7 @@ std::ostream& operator<<(std::ostream& out, const WorkTicket& ticket)
     return out;
 }
 
-//friend method for operator<< overload
+//friend method for operator >> overload
 std::istream& operator>>(std::istream& in, WorkTicket& ticket)
 {
 	//variable declaration
