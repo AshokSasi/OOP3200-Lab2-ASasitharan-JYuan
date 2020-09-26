@@ -28,6 +28,7 @@ public:
     //constructor
     WorkTicket(int ticketNumber = 0, string clientID = "", int workTicketDay = 1, int workTicketMonth = 1, int workTicketYear = 2000, string issueDescription = "");
 
+	//input and output operator overloaded constructor
     friend std::ostream& operator<<(std::ostream& out, const  WorkTicket& ticket);
     friend std::istream& operator>>(std::istream& in, WorkTicket& ticket);
 
@@ -91,7 +92,7 @@ private:
 int main()
 {
     //constants
-    const int NUMBER_OF_OBJECTS = 2;
+    const int NUMBER_OF_OBJECTS = 3;
     const int MIN_DATE = 1;
     const int MAX_DATE = 31;
     const int MIN_MONTHS = 1;
@@ -194,16 +195,17 @@ int main()
 
     //assigns a new ticket equal to work ticket 1
     WorkTicket& assignedTicket = workTicketObj[0];
-    cout << "A Work object 3 was ASSIGNED.\n";
+    cout << "A WorkTicket object was ASSIGNED.\n";
 
     cout << "\n" << assignedTicket << endl;
 
     //statement for if the first and second ticket are equal
     cout << "Is ticket #1 equal to ticket #2? " << equalTicket << endl;
 
+	//create a new work ticket
     WorkTicket ticketObject4;
     cout << "\nAdd ticket #4" << endl;
-    cin >> ticketObject4;
+    cin >> ticketObject4; //take input for the object using cin
     cout << "\n" << ticketObject4 << endl;
 
     return 0;
@@ -247,6 +249,7 @@ bool WorkTicket::SetWorkTicket(int inputtedTicketNumber, string inputtedClientID
 //Copy function
 WorkTicket::WorkTicket(const WorkTicket& newTicket)
 {
+    //copies the attributes from an existing work ticket to the new one
     SetWorkTicket(newTicket.GetWorkTicketNumber(), newTicket.GetClientID(), newTicket.GetWorkTicketDay(),
         newTicket.GetWorkTicketMonth(), newTicket.GetWorkTicketYear(), newTicket.GetIssueDescription());
 
@@ -278,6 +281,7 @@ std::ostream& operator<<(std::ostream& out, const WorkTicket& ticket)
 //friend method for operator<< overload
 std::istream& operator>>(std::istream& in, WorkTicket& ticket)
 {
+	//variable declaration
     string tempClientID;
     string tempIssue;
     double decimalTest;
@@ -285,7 +289,10 @@ std::istream& operator>>(std::istream& in, WorkTicket& ticket)
 
     while (true)
     {
-
+        /*
+         *prompt input for all work ticket attributes and validates information
+         *If all information is correct a new object is created otherwise the user is prompted to enter the information again
+         */
         cout << "\nEnter the work ticket number: ";
         in >> decimalTest;
         int tempTicketNumber = decimalTest;
@@ -349,7 +356,7 @@ std::istream& operator>>(std::istream& in, WorkTicket& ticket)
                 }
                 else
                 {
-                    cout << "\nInput must be a whole nmber between 1 - 31." << endl;
+                    cout << "\nInput must be a whole number between 1 - 31." << endl;
                     inputError = true;
                 }
             }
@@ -372,6 +379,7 @@ std::istream& operator>>(std::istream& in, WorkTicket& ticket)
 //Comparsion operator overload
 bool WorkTicket::operator==(const WorkTicket& otherTicket) const
 {
+	//compares all of the attributes of 2 work ticket objects and returns true or false
     return ((GetWorkTicketNumber() == otherTicket.GetWorkTicketNumber()) && (GetClientID() == otherTicket.GetClientID())
         && (GetWorkTicketDay() == otherTicket.GetWorkTicketDay()) && (GetWorkTicketMonth() == otherTicket.GetWorkTicketMonth())
         && (GetWorkTicketYear() == otherTicket.GetWorkTicketYear()) && (GetIssueDescription() == otherTicket.GetIssueDescription()));
@@ -380,6 +388,7 @@ bool WorkTicket::operator==(const WorkTicket& otherTicket) const
 //assignment operator overload
 WorkTicket WorkTicket::operator=(const WorkTicket& assignedTicket)
 {
+	//assigns the values of one work ticket object into another
     SetWorkTicketNumber(assignedTicket.GetWorkTicketNumber());
     SetClientID(assignedTicket.GetClientID());
     SetWorkTicketDay(assignedTicket.GetWorkTicketDay());
