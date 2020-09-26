@@ -34,9 +34,13 @@ public:
     //copy constructor
     WorkTicket(const WorkTicket& newTicket);
 
+    //Object to string conversion constructor
+    operator string() const;
+
     //comparsion constructor
     bool operator==(const WorkTicket& otherTicket) const;
 
+    //assignment constructor
     WorkTicket operator=(const WorkTicket& assignTicket);
 
     // Accessors:
@@ -143,8 +147,10 @@ int main()
                 //     cout << "\nClient ID and issue description fields cannot be empty." << endl;
                //  }
 
+                // checks for errors and provides prompt to move to next ticket
                 if (errorFlag == true)
                 {
+                    // checks for iteration and copies the work ticket
                     if (i == 0)
                     {
                         WorkTicket newTicket = workTicketObj[i];
@@ -178,6 +184,7 @@ int main()
         cout << workTicketObj[j] << endl; //calls ShowWorkTicket method for each object
     }
 
+    //outputs comparsion operator results in to "true" or "false"
     if (workTicketObj[0] == workTicketObj[1])
     {
         equalTicket = "True";
@@ -186,11 +193,14 @@ int main()
     {
         equalTicket = "False";
     }
-    cout << "A Work object was ASSIGNED.\n";
+
+    //assigns a new ticket equal to work ticket 1
     WorkTicket& assignedTicket = workTicketObj[0];
+    cout << "A Work object was ASSIGNED.\n";
 
     cout << "\n" << assignedTicket << endl;
 
+    //statement for if the first and second ticket are equal
     cout << "Is ticket #1 equal to ticket #2? " << equalTicket << endl;
 
     return 0;
@@ -231,7 +241,7 @@ bool WorkTicket::SetWorkTicket(int inputtedTicketNumber, string inputtedClientID
     }
 }
 
-//Copy constructor
+//Copy function
 WorkTicket::WorkTicket(const WorkTicket& newTicket)
 {
     SetWorkTicket(newTicket.GetWorkTicketNumber(), newTicket.GetClientID(), newTicket.GetWorkTicketDay(),
@@ -240,10 +250,25 @@ WorkTicket::WorkTicket(const WorkTicket& newTicket)
     cout << "\nA work ticket object was copied\n";
 }
 
+//Object to string conversion
+WorkTicket::operator string() const 
+{
+    stringstream workTicketOutput;
+    // build the workorder output
+    workTicketOutput << "Work Ticket # " << iteration << " - " << GetClientID()
+        << " (" << GetWorkTicketDay() << "/" << GetWorkTicketMonth() << "/" << GetWorkTicketYear()
+        << "): " << GetIssueDescription() << endl;
+    //return the workorder attribute output
+    iteration++;
+    return workTicketOutput.str();
+}
+
+
+
 //friend method for operator<< overload
 std::ostream& operator<<(std::ostream& out, const WorkTicket& ticket)
 {
-    out << ticket.ShowWorkTicket();
+    out << string(ticket);
     return out;
 }
 
@@ -257,6 +282,7 @@ std::ostream& operator<<(std::ostream& out, const WorkTicket& ticket)
 //    return in;
 //}
 
+//Comparsion operator overload
 bool WorkTicket::operator==(const WorkTicket& otherTicket) const
 {
     return ((GetWorkTicketNumber() == otherTicket.GetWorkTicketNumber()) && (GetClientID() == otherTicket.GetClientID())
@@ -264,6 +290,7 @@ bool WorkTicket::operator==(const WorkTicket& otherTicket) const
         && (GetWorkTicketYear() == otherTicket.GetWorkTicketYear()) && (GetIssueDescription() == otherTicket.GetIssueDescription()));
 }
 
+//assignment operator overload
 WorkTicket WorkTicket::operator=(const WorkTicket& assignedTicket)
 {
     SetWorkTicketNumber(assignedTicket.GetWorkTicketNumber());
@@ -347,16 +374,16 @@ string WorkTicket::GetIssueDescription() const
     return issueDescription;
 }
 
-//shows the attributes of a work tickets issue
-string WorkTicket::ShowWorkTicket() const
-{   // declare a stringstream object
-    stringstream workTicketOutput;
-    // build the workorder output
-    workTicketOutput << "Work Ticket # " << iteration << " - " << GetClientID()
-        << " (" << GetWorkTicketDay() << "/" << GetWorkTicketMonth() << "/" << GetWorkTicketYear()
-        << "): " << GetIssueDescription() << endl;
-    //return the workorder attribute output
-    iteration++;
-    return workTicketOutput.str();
-}
+////shows the attributes of a work tickets issue
+//string WorkTicket::ShowWorkTicket() const
+//{   // declare a stringstream object
+//    stringstream workTicketOutput;
+//    // build the workorder output
+//    workTicketOutput << "Work Ticket # " << iteration << " - " << GetClientID()
+//        << " (" << GetWorkTicketDay() << "/" << GetWorkTicketMonth() << "/" << GetWorkTicketYear()
+//        << "): " << GetIssueDescription() << endl;
+//    //return the workorder attribute output
+//    iteration++;
+//    return workTicketOutput.str();
+//}
 
