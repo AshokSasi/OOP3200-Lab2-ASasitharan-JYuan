@@ -37,6 +37,8 @@ public:
     //comparsion constructor
     bool operator==(const WorkTicket& otherTicket) const;
 
+    WorkTicket operator=(const WorkTicket& assignTicket);
+
     // Accessors:
     //get the work ticket number
     int GetWorkTicketNumber() const;
@@ -85,7 +87,7 @@ private:
 int main()
 {
     //constants
-    const int NUMBER_OF_OBJECTS = 3;
+    const int NUMBER_OF_OBJECTS = 2;
     const int MIN_DATE = 1;
     const int MAX_DATE = 31;
     const int MIN_MONTHS = 1;
@@ -184,6 +186,10 @@ int main()
     {
         equalTicket = "False";
     }
+    cout << "A Work object was ASSIGNED.\n";
+    WorkTicket& assignedTicket = workTicketObj[0];
+
+    cout << "\n" << assignedTicket << endl;
 
     cout << "Is ticket #1 equal to ticket #2? " << equalTicket << endl;
 
@@ -257,6 +263,18 @@ bool WorkTicket::operator==(const WorkTicket& otherTicket) const
         && (GetWorkTicketDay() == otherTicket.GetWorkTicketDay()) && (GetWorkTicketMonth() == otherTicket.GetWorkTicketMonth())
         && (GetWorkTicketYear() == otherTicket.GetWorkTicketYear()) && (GetIssueDescription() == otherTicket.GetIssueDescription()));
 }
+
+WorkTicket WorkTicket::operator=(const WorkTicket& assignedTicket)
+{
+    SetWorkTicketNumber(assignedTicket.GetWorkTicketNumber());
+    SetClientID(assignedTicket.GetClientID());
+    SetWorkTicketDay(assignedTicket.GetWorkTicketDay());
+    SetWorkTicketMonth(assignedTicket.GetWorkTicketMonth());
+    SetWorkTicketYear(assignedTicket.GetWorkTicketYear());
+    SetIssueDescription(assignedTicket.GetIssueDescription());
+    return *this;
+}
+
 //setter for the work ticket number
 void WorkTicket::SetWorkTicketNumber(int inputtedTicketNumber)
 {
@@ -341,3 +359,4 @@ string WorkTicket::ShowWorkTicket() const
     iteration++;
     return workTicketOutput.str();
 }
+
