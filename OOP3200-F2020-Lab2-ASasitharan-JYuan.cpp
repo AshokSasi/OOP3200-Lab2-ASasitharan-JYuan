@@ -120,9 +120,7 @@ int main()
             try//start of try block
             {
                 cout << "\nEnter the work ticket number: "; //prompt input for ticket number
-
                 inputtedTicketNumber = ConsoleInput::ReadInteger(MIN_TICKET_NUMBER); //user input for ticket's date
-
 
                 cout << "\nEnter the Client ID: "; //prompt input for the client id
                 cin >> inputtedClientID; //user input for client id
@@ -163,7 +161,7 @@ int main()
 
 
             }
-            catch (const invalid_argument& ia)  //catch block
+            catch (const invalid_argument & ia)  //catch block
             {
                 cerr << "Invalid argument: " << ia.what() << '\n'; //invalid argument print
                //clears input
@@ -196,7 +194,7 @@ int main()
 
     //assigns a new ticket equal to work ticket 1
     WorkTicket& assignedTicket = workTicketObj[0];
-    cout << "A Work object was ASSIGNED.\n";
+    cout << "A Work object 3 was ASSIGNED.\n";
 
     cout << "\n" << assignedTicket << endl;
 
@@ -205,7 +203,6 @@ int main()
 
     WorkTicket ticketObject4;
     cout << "\nAdd ticket #4" << endl;
-    cout << "Please enter: Ticket Number, Client ID, Date, Month, Year, and Issue Description."<<endl;
     cin >> ticketObject4;
     cout << "\n" << ticketObject4 << endl;
 
@@ -257,7 +254,7 @@ WorkTicket::WorkTicket(const WorkTicket& newTicket)
 }
 
 //Object to string conversion
-WorkTicket::operator string() const 
+WorkTicket::operator string() const
 {
     stringstream workTicketOutput;
     // build the workorder output
@@ -281,19 +278,95 @@ std::ostream& operator<<(std::ostream& out, const WorkTicket& ticket)
 //friend method for operator<< overload
 std::istream& operator>>(std::istream& in, WorkTicket& ticket)
 {
+    string tempClientID;
+    string tempIssue;
+    double decimalTest;
+    bool inputError = false;
 
-    in >> ticket.ticketNumber;
-    in.ignore();
-    in >> ticket.clientID;
-    in.ignore();
-    in >> ticket.workTicketDay;
-    in.ignore();
-    in >> ticket.workTicketMonth;
-    in.ignore();
-    in >> ticket.workTicketYear;
-    in.ignore();
-    in >> ticket.issueDescription;
-    return in;
+    while (true)
+    {
+
+        cout << "\nEnter the work ticket number: ";
+        in >> decimalTest;
+        int tempTicketNumber = decimalTest;
+        // in.ignore();
+        if (!in.fail() && tempTicketNumber > 0 && tempTicketNumber == decimalTest)
+        {
+            cout << "\nEnter the Client ID: ";
+            in >> tempClientID;
+            in.ignore();
+            if (!tempClientID.empty())
+            {
+                cout << "\nEnter the date: ";
+                in >> decimalTest;
+                int tempDate = decimalTest;
+                in.ignore();
+                if (tempDate > 0 && tempDate < 32 && tempDate == decimalTest)
+                {
+                    cout << "\nEnter the month as a number between 1-12: ";
+                    in >> decimalTest;
+                    int tempMonth = decimalTest;
+                    in.ignore();
+                    if (tempMonth > 0 && tempMonth < 13 && tempMonth == decimalTest)
+                    {
+                        cout << "\nEnter the year (must be between 2000-2099): ";
+                        in >> decimalTest;
+                        int tempYear = decimalTest;
+                        in.ignore();
+                        if (tempYear > 1999 && tempYear < 2100 && tempYear == decimalTest)
+                        {
+                            cout << "\nEnter description of the issue: ";
+                            getline(in, tempIssue);
+                            if (!tempIssue.empty())
+                            {
+                                inputError = false;
+                                ticket.SetWorkTicketNumber(tempTicketNumber);
+                                ticket.SetClientID(tempClientID);
+                                ticket.SetWorkTicketDay(tempDate);
+                                ticket.SetWorkTicketMonth(tempMonth);
+                                ticket.SetWorkTicketYear(tempYear);
+                                ticket.SetIssueDescription(tempIssue);
+                                return in;
+
+                            }
+                            else
+                            {
+                                cout << "\nInput cannot be empty." << endl;
+                                inputError = true;
+                            }
+                        }
+                        else
+                        {
+                            cout << "\nInput must be whole number between 2000 - 2099." << endl;
+                            inputError = true;
+                        }
+                    }
+                    else
+                    {
+                        cout << "\nInput must be a whole number between 1 - 12." << endl;
+                        inputError = true;
+                    }
+                }
+                else
+                {
+                    cout << "\nInput must be a whole nmber between 1 - 31." << endl;
+                    inputError = true;
+                }
+            }
+            else
+            {
+                cout << "\nInput cannot be empty." << endl;
+                inputError = true;
+            }
+        }
+        else
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "\nInput must be a whole number greater than 0." << endl;
+            inputError = true;
+        }
+    }
 }
 
 //Comparsion operator overload
